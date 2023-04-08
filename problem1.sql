@@ -52,18 +52,18 @@ WITH RECURSIVE employee_hierarchy (id, name, manager_id) AS (
 )
 SELECT * FROM employee_hierarchy;
 
-or
+//Example
 WITH RECURSIVE employee_hierarchy  AS (
     SELECT id, name, manager_id
-    FROM `demo.employee_dataset.employees_details`
+    FROM `demo.employee_dataset.employees_details` eh
     WHERE manager_id = 1
     UNION ALL
     SELECT e.id, e.name, e.manager_id
     FROM `demo.employee_dataset.employees_details` e
-    JOIN `demo.employee_dataset.employees_details` eh 
-    ON e.manager_id = eh.id WHERE e.manager_id = 1
+    JOIN employee_hierarchy eh 
+    ON e.manager_id = eh.id 
 )
-SELECT distinct * FROM employee_hierarchy order by manager_id;
+SELECT * FROM employee_hierarchy order by manager_id;
 
 //Find the hierarchy of managers for a given employee in SQL
 WITH RECURSIVE manager_hierarchy (id, name, manager_id) AS (
@@ -73,6 +73,18 @@ WITH RECURSIVE manager_hierarchy (id, name, manager_id) AS (
     UNION ALL
     SELECT e.id, e.name, e.manager_id
     FROM employees e
+    JOIN manager_hierarchy mh ON e.id = mh.manager_id
+)
+SELECT * FROM manager_hierarchy;
+
+//Example:
+WITH RECURSIVE manager_hierarchy  AS (
+    SELECT id, name, manager_id
+    FROM `demo.employee_dataset.employees_details` 
+    WHERE id = 5
+    UNION ALL
+    SELECT e.id, e.name, e.manager_id
+    FROM `demo.employee_dataset.employees_details`  e
     JOIN manager_hierarchy mh ON e.id = mh.manager_id
 )
 SELECT * FROM manager_hierarchy;
