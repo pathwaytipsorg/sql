@@ -41,6 +41,18 @@ INSERT INTO `demo.employee_dataset.employees_details`(id,name ,manager_id,salary
 VALUES(10,'Henry Irwin',5 ,40000 ,'Developer');
 
 //Find the hierarchy of employees under a given manager in SQL
+WITH RECURSIVE employee_hierarchy (id, name, manager_id) AS (
+    SELECT id, name, manager_id
+    FROM employees
+    WHERE manager_id = [given_manager_id]
+    UNION ALL
+    SELECT e.id, e.name, e.manager_id
+    FROM employees e
+    JOIN employee_hierarchy eh ON e.manager_id = eh.id
+)
+SELECT * FROM employee_hierarchy;
+
+or
 WITH RECURSIVE employee_hierarchy  AS (
     SELECT id, name, manager_id
     FROM `demo.employee_dataset.employees_details`
