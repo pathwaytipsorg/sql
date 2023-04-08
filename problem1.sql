@@ -65,3 +65,15 @@ WITH RECURSIVE employee_hierarchy  AS (
 )
 SELECT distinct * FROM employee_hierarchy order by manager_id;
 
+//Find the hierarchy of managers for a given employee in SQL
+WITH RECURSIVE manager_hierarchy (id, name, manager_id) AS (
+    SELECT id, name, manager_id
+    FROM employees
+    WHERE id = [given_employee_id]
+    UNION ALL
+    SELECT e.id, e.name, e.manager_id
+    FROM employees e
+    JOIN manager_hierarchy mh ON e.id = mh.manager_id
+)
+SELECT * FROM manager_hierarchy;
+
