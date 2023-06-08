@@ -31,8 +31,6 @@ SELECT e.id, e.name, eh.manager_ids
     FROM ( SELECT id, name, id as manager_ids
     FROM `composed-slice-383418.demo.employees_details` WHERE id=1) eh
     JOIN `composed-slice-383418.demo.employees_details` e ON e.manager_id = eh.id
-
-SELECT * FROM employee_hierarchy ORDER BY manager_ids, id;
 --
 WITH RECURSIVE employee_hierarchy AS (
     SELECT id, name, id as manager_ids
