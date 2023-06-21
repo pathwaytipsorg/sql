@@ -57,13 +57,13 @@ SELECT * FROM employee_hierarchy;
 --Example
 WITH RECURSIVE employee_hierarchy  AS (
     SELECT id, name, manager_id
-    FROM `demo.employee_dataset.employees_details` eh
-    WHERE manager_id = 1
+    FROM `pathwaytips001.staging.employees_details`
+    WHERE manager_id = 2
     UNION ALL
     SELECT e.id, e.name, e.manager_id
-    FROM `demo.employee_dataset.employees_details` e
-    JOIN employee_hierarchy eh 
-    ON e.manager_id = eh.id 
+    FROM `pathwaytips001.staging.employees_details`  e
+    JOIN employee_hierarchy m
+    ON e.manager_id = m.id 
 )
 SELECT * FROM employee_hierarchy order by manager_id;
 
